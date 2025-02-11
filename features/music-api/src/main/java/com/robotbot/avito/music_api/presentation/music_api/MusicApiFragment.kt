@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.robotbot.avito.music_api.databinding.FragmentMusicApiBinding
-import com.robotbot.avito.music_api.di.DaggerMusicApiComponent
+import com.robotbot.avito.music_api.di.MusicApiComponentProvider
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ class MusicApiFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentMusicApiBinding == null")
 
     private val component by lazy {
-        DaggerMusicApiComponent.create()
+        (requireActivity().application as MusicApiComponentProvider).provideMusicApiComponent()
     }
 
     @Inject

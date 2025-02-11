@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class MusicApiViewModel(
     private val getChartMusicListUseCase: GetChartMusicListUseCase,
     private val searchMusicUseCase: SearchMusicUseCase,
-    private val musicApiRouter: MusicApiRouter
+//    private val musicApiRouter: MusicApiRouter
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<MusicApiState>(MusicApiState.Initial)

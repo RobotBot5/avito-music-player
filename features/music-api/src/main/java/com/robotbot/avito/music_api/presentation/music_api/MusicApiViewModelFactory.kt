@@ -10,11 +10,11 @@ import javax.inject.Inject
 class MusicApiViewModelFactory @Inject constructor(
     private val getChartMusicListUseCase: GetChartMusicListUseCase,
     private val searchMusicUseCase: SearchMusicUseCase,
-    private val musicApiRouter: MusicApiRouter
+//    private val musicApiRouter: MusicApiRouter
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MusicApiViewModel(getChartMusicListUseCase, searchMusicUseCase, musicApiRouter) as T
+        return MusicApiViewModel(getChartMusicListUseCase, searchMusicUseCase) as T
     }
 }
