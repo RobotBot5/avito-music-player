@@ -18,11 +18,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/nameTextView"
+        android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        tools:text="Song name"
+        tools:text="Song title"
         app:layout_constraintBottom_toTopOf="@id/authorTextView"
         app:layout_constraintStart_toEndOf="@id/songImageView"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,8 +33,8 @@
         android:layout_height="wrap_content"
         tools:text="Song Author"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/nameTextView"
-        app:layout_constraintTop_toBottomOf="@id/nameTextView" />
+        app:layout_constraintStart_toStartOf="@id/titleTextView"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/downloadImageView"

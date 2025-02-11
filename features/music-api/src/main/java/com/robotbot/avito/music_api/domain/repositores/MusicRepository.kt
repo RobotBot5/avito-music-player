@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MusicRepository {
 
-    fun getMusicChart(): Flow<Song>
+    suspend fun getMusicChart(): List<Song>
 
-    fun searchMusic(searchQuery: String): Flow<Song>
+    suspend fun searchMusic(searchQuery: String): List<Song>
 }
