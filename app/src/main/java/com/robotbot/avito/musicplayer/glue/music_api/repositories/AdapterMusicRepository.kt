@@ -14,13 +14,13 @@ class AdapterMusicRepository @Inject constructor(
     private val musicDataRepository: MusicDataRepository
 ) : MusicRepository {
 
-    override suspend fun getMusicChart(): Flow<PagingData<Song>> {
+    override fun getMusicChart(): Flow<PagingData<Song>> {
         return musicDataRepository.getMusicChart().map {
             it.map(MusicMapper::mapDataEntityToDomain)
         }
     }
 
-    override suspend fun searchMusic(searchQuery: String): Flow<PagingData<Song>> {
+    override fun searchMusic(searchQuery: String): Flow<PagingData<Song>> {
         return musicDataRepository.searchMusic(searchQuery)
             .map {
                 it.map(MusicMapper::mapDataEntityToDomain)

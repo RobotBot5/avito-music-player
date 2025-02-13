@@ -7,5 +7,5 @@ class SearchMusicUseCase @Inject constructor(
     private val musicRepository: MusicRepository
 ) {
 
-    suspend operator fun invoke(searchQuery: String) = musicRepository.searchMusic(searchQuery)
+    operator fun invoke(searchQuery: String) = musicRepository.searchMusic(searchQuery)
 }

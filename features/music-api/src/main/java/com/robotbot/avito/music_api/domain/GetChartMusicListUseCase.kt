@@ -7,5 +7,5 @@ class GetChartMusicListUseCase @Inject constructor(
     private val musicRepository: MusicRepository
 ) {
 
-    suspend operator fun invoke() = musicRepository.getMusicChart()
+    operator fun invoke() = musicRepository.getMusicChart()
 }

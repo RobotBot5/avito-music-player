@@ -15,14 +15,14 @@ class RealMusicDataRepository @Inject constructor(
     private val musicSource: RemoteDataSource
 ) : MusicDataRepository {
 
-    override suspend fun getMusicChart(): Flow<PagingData<SongDataEntity>> {
+    override fun getMusicChart(): Flow<PagingData<SongDataEntity>> {
         val loader: MusicPageLoader = { pageIndex, pageSize ->
             getChartMusic(pageIndex, pageSize)
         }
         return getDefaultPager(loader).flow
     }
 
-    override suspend fun searchMusic(searchQuery: String): Flow<PagingData<SongDataEntity>> {
+    override fun searchMusic(searchQuery: String): Flow<PagingData<SongDataEntity>> {
         val loader: MusicPageLoader = { pageIndex, pageSize ->
             getMusicBySearch(pageIndex, pageSize, searchQuery)
         }

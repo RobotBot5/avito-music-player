@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MusicRepository {
 
-    suspend fun getMusicChart(): Flow<PagingData<Song>>
+    fun getMusicChart(): Flow<PagingData<Song>>
 
-    suspend fun searchMusic(searchQuery: String): Flow<PagingData<Song>>
+    fun searchMusic(searchQuery: String): Flow<PagingData<Song>>
 }
