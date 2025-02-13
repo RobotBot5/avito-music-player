@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.robotbot.avito.music_api.domain.GetChartMusicListUseCase
 import com.robotbot.avito.music_api.domain.SearchMusicUseCase
 import com.robotbot.avito.music_api.presentation.MusicApiRouter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 class MusicApiViewModelFactory @Inject constructor(
@@ -13,6 +14,7 @@ class MusicApiViewModelFactory @Inject constructor(
 //    private val musicApiRouter: MusicApiRouter
 ) : ViewModelProvider.Factory {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MusicApiViewModel(getChartMusicListUseCase, searchMusicUseCase) as T

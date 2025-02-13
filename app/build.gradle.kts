@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 
+    implementation(libs.androidx.paging.runtimeKtx)
+
     implementation(project(":data"))
     implementation(project(":features:music-api"))
 }

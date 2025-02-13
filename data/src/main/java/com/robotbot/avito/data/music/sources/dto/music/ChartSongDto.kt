@@ -14,6 +14,6 @@ data class ChartSongDto(
         id = id,
         title = title,
         authorName = artist.name,
-        songImageUrl = albumDto.coverSmallUrl
+        songImageUrl = albumDto.coverMediumUrl
     )
 }

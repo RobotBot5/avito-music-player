@@ -1,12 +1,18 @@
 package com.robotbot.avito.music_api.presentation.music_api
 
+import androidx.paging.PagingData
 import com.robotbot.avito.music_api.domain.entities.Song
 
-sealed interface MusicApiState {
+data class MusicApiState(
+    val displayState: MusicApiDisplayState = MusicApiDisplayState.Initial,
+    val musicList: PagingData<Song> = PagingData.empty()
+)
 
-    data object Initial : MusicApiState
-    data object Loading : MusicApiState
-    data class ChartMusic(val songs: List<Song>) : MusicApiState
-    data class SearchMusic(val songs: List<Song>) : MusicApiState
-    data class Error(val msg: String) : MusicApiState
+sealed interface MusicApiDisplayState {
+
+    data object Initial : MusicApiDisplayState
+    data object Loading : MusicApiDisplayState
+    data object ChartMusic : MusicApiDisplayState
+    data object SearchMusic : MusicApiDisplayState
+    data class Error(val msg: String) : MusicApiDisplayState
 }

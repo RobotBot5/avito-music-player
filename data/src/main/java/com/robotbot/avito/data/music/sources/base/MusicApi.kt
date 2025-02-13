@@ -7,10 +7,17 @@ import retrofit2.http.Query
 
 interface MusicApi {
 
-    @GET("chart")
-    suspend fun getMusicChart(): ChartResponseDto
+    @GET("chart/0/tracks")
+    suspend fun getMusicChart(
+        @Query("limit") limit: Int? = null,
+        @Query("index") index: Int? = null
+    ): TrackListWrapperDto
 
     @GET("search")
-    suspend fun searchMusic(@Query("q") searchQuery: String): TrackListWrapperDto
+    suspend fun searchMusic(
+        @Query("q") searchQuery: String,
+        @Query("limit") limit: Int? = null,
+        @Query("index") index: Int? = null
+    ): TrackListWrapperDto
 
 }

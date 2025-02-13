@@ -50,4 +50,8 @@ dependencies {
 
     implementation(libs.glide)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(libs.androidx.paging.runtimeKtx)
+
+    implementation(project(":core:common"))
 }

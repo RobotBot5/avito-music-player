@@ -2,6 +2,9 @@ package com.robotbot.avito.data.music.sources.base
 
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
+import com.robotbot.avito.common.BackendException
+import com.robotbot.avito.common.ConnectionException
+import com.robotbot.avito.common.ParseBackendResponseException
 import com.robotbot.avito.data.music.sources.dto.DtoWithError
 import retrofit2.HttpException
 import java.io.IOException
@@ -25,20 +28,3 @@ suspend fun <T> wrapRetrofitExceptions(block: suspend () -> T): T {
         throw ConnectionException(e)
     }
 }
-
-open class AppException : RuntimeException {
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(cause: Throwable) : super(cause)
-}
-
-class ConnectionException(cause: Throwable) : AppException(cause = cause)
-
-open class BackendException(
-    val code: Int,
-    message: String
-) : AppException(message)
-
-class ParseBackendResponseException(
-    cause: Throwable
-) : AppException(cause = cause)

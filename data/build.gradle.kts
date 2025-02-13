@@ -49,4 +49,7 @@ dependencies {
     implementation(libs.okhttp.loggingInterceptor)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.androidx.paging.runtimeKtx)
+
+    implementation(project(":core:common"))
 }

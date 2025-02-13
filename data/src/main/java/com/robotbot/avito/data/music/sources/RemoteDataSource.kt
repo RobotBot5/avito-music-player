@@ -4,7 +4,14 @@ import com.robotbot.avito.data.music.entities.SongDataEntity
 
 interface RemoteDataSource {
 
-    suspend fun getMusicChart(): List<SongDataEntity>
+    suspend fun getMusicChart(
+        limit: Int? = null,
+        index: Int? = null
+    ): List<SongDataEntity>
 
-    suspend fun searchMusic(searchQuery: String): List<SongDataEntity>
+    suspend fun searchMusic(
+        searchQuery: String,
+        limit: Int? = null,
+        index: Int? = null
+    ): List<SongDataEntity>
 }
