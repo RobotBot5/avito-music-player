@@ -17,7 +17,7 @@ class PagingDataSource(
             return LoadResult.Page(
                 data = songs,
                 prevKey = if (pageIndex == 0) null else pageIndex - 1,
-                nextKey = if (songs.size == params.loadSize) pageIndex + (params.loadSize / pageSize) else null
+                nextKey = if (songs.isNotEmpty()) pageIndex + (params.loadSize / pageSize) else null
             )
         } catch (e: Exception) {
             LoadResult.Error(
