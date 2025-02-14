@@ -4,10 +4,12 @@ import com.robotbot.avito.music_api.domain.repositores.MusicRepository
 import com.robotbot.avito.musicplayer.glue.music_api.repositories.AdapterMusicRepository
 import dagger.Binds
 import dagger.Module
+import javax.inject.Singleton
 
 @Module
 interface MusicRepositoriesModule {
 
     @Binds
+    @Singleton
     fun bindsMusicRepository(impl: AdapterMusicRepository): MusicRepository
 }
