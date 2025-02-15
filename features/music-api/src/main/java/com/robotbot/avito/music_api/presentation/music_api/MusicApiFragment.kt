@@ -1,6 +1,7 @@
 package com.robotbot.avito.music_api.presentation.music_api
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,17 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.DownloadHelper
+import androidx.media3.exoplayer.offline.DownloadIndex
+import androidx.media3.exoplayer.offline.DownloadManager
+import androidx.media3.exoplayer.offline.DownloadRequest
+import androidx.media3.exoplayer.offline.DownloadService
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.gson.Gson
 import com.robotbot.avito.common.simpleScan
+import com.robotbot.avito.music_api.DownloadMusicService
 import com.robotbot.avito.music_api.databinding.FragmentMusicApiBinding
 import com.robotbot.avito.music_api.di.MusicApiComponentProvider
 import com.robotbot.avito.music_api.presentation.music_api.adapter.DefaultLoadStateAdapter
@@ -42,7 +51,7 @@ class MusicApiFragment : Fragment() {
     private lateinit var adapter: MusicPagingAdapter
 
     @Inject
-    lateinit var viewModelFactory: MusicApiViewModelFactory
+    internal lateinit var viewModelFactory: MusicApiViewModelFactory
 
     private val viewModel: MusicApiViewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[MusicApiViewModel::class.java]
@@ -75,8 +84,28 @@ class MusicApiFragment : Fragment() {
         }
     }
 
+    @UnstableApi
     private fun setupRecyclerView() {
         adapter = MusicPagingAdapter()
+
+        adapter.onDownloadClickListener = { song ->
+            val downloadRequest = DownloadRequest.Builder(
+                song.id.toString(),
+                Uri.parse(song.previewUrl)
+            ).setData(Gson().toJson(song).toByteArray()).build()
+
+//            DownloadService.start(
+//                requireContext(),
+//                DownloadMusicService::class.java
+//            )
+
+            DownloadService.sendAddDownload(
+                requireContext(),
+                DownloadMusicService::class.java,
+                downloadRequest,
+                false
+            )
+        }
 
         val tryAgainAction: TryAgainAction = { adapter.retry() }
 

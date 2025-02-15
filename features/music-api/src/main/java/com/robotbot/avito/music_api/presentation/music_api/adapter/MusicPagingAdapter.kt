@@ -3,13 +3,19 @@ package com.robotbot.avito.music_api.presentation.music_api.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.OptIn
+import androidx.media3.common.util.UnstableApi
 import androidx.paging.PagingDataAdapter
 import com.bumptech.glide.Glide
 import com.robotbot.avito.music_api.R
 import com.robotbot.avito.music_api.databinding.ItemSongBinding
 import com.robotbot.avito.music_api.domain.entities.Song
 
+typealias OnDownloadClickListener = (Song) -> Unit
+
 class MusicPagingAdapter : PagingDataAdapter<Song, SongViewHolder>(SongDiffCallback) {
+
+    var onDownloadClickListener: OnDownloadClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         val binding = ItemSongBinding.inflate(
@@ -20,12 +26,16 @@ class MusicPagingAdapter : PagingDataAdapter<Song, SongViewHolder>(SongDiffCallb
         return SongViewHolder(binding)
     }
 
+    @OptIn(UnstableApi::class)
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         val song = getItem(position) ?: return
         with (holder.binding) {
             titleTextView.text = song.title
             authorTextView.text = song.authorName
             loadSongPhoto(songImageView, song.songImageUrl)
+            downloadImageView.setOnClickListener {
+                onDownloadClickListener?.invoke(song)
+            }
         }
     }
 

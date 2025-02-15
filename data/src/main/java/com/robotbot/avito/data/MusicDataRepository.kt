@@ -1,6 +1,7 @@
 package com.robotbot.avito.data
 
 import androidx.paging.PagingData
+import com.robotbot.avito.data.music.entities.LocalSongDataEntity
 import com.robotbot.avito.data.music.entities.SongDataEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -10,6 +11,6 @@ interface MusicDataRepository {
 
     fun searchMusic(searchQuery: String): Flow<PagingData<SongDataEntity>>
 
-
+    suspend fun saveSongIntoDb(localSongDataEntity: LocalSongDataEntity)
 
 }

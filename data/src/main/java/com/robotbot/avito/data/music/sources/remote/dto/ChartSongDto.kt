@@ -1,4 +1,4 @@
-package com.robotbot.avito.data.music.sources.dto.music
+package com.robotbot.avito.data.music.sources.remote.dto
 
 import com.google.gson.annotations.SerializedName
 import com.robotbot.avito.data.music.entities.SongDataEntity
@@ -6,6 +6,7 @@ import com.robotbot.avito.data.music.entities.SongDataEntity
 data class ChartSongDto(
     @SerializedName("id") val id: Long,
     @SerializedName("title") val title: String,
+    @SerializedName("preview") val previewUrl: String,
     @SerializedName("artist") val artist: ArtistDto,
     @SerializedName("album") val albumDto: AlbumDto
 ) {
@@ -14,6 +15,7 @@ data class ChartSongDto(
         id = id,
         title = title,
         authorName = artist.name,
-        songImageUrl = albumDto.coverMediumUrl
+        songImageUrl = albumDto.coverMediumUrl,
+        previewUrl = previewUrl
     )
 }

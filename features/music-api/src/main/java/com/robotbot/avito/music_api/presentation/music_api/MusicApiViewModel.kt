@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 
 @OptIn(FlowPreview::class)
 @ExperimentalCoroutinesApi
-class MusicApiViewModel(
+internal class MusicApiViewModel(
     private val getChartMusicListUseCase: GetChartMusicListUseCase,
     private val searchMusicUseCase: SearchMusicUseCase,
 //    private val musicApiRouter: MusicApiRouter

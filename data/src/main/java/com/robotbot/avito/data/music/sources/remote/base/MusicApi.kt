@@ -1,6 +1,6 @@
-package com.robotbot.avito.data.music.sources.base
+package com.robotbot.avito.data.music.sources.remote.base
 
-import com.robotbot.avito.data.music.sources.dto.music.TrackListWrapperDto
+import com.robotbot.avito.data.music.sources.remote.dto.TrackListWrapperDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -4,15 +4,18 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.robotbot.avito.data.MusicDataRepository
+import com.robotbot.avito.data.music.entities.LocalSongDataEntity
 import com.robotbot.avito.data.music.entities.SongDataEntity
-import com.robotbot.avito.data.music.sources.MusicPageLoader
+import com.robotbot.avito.data.music.sources.LocalDataSource
+import com.robotbot.avito.data.music.sources.remote.MusicPageLoader
 import com.robotbot.avito.data.music.sources.PagingDataSource
 import com.robotbot.avito.data.music.sources.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RealMusicDataRepository @Inject constructor(
-    private val musicSource: RemoteDataSource
+    private val remoteMusicSource: RemoteDataSource,
+    private val localMusicSource: LocalDataSource
 ) : MusicDataRepository {
 
     override fun getMusicChart(): Flow<PagingData<SongDataEntity>> {
@@ -29,6 +32,10 @@ class RealMusicDataRepository @Inject constructor(
         return getDefaultPager(loader).flow
     }
 
+    override suspend fun saveSongIntoDb(localSongDataEntity: LocalSongDataEntity) {
+        localMusicSource.saveSong(localSongDataEntity)
+    }
+
     private fun getDefaultPager(loader: MusicPageLoader): Pager<Int, SongDataEntity> = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
@@ -39,12 +46,12 @@ class RealMusicDataRepository @Inject constructor(
 
     private suspend fun getChartMusic(pageIndex: Int, pageSize: Int): List<SongDataEntity> {
         val offset = pageIndex * pageSize
-        return musicSource.getMusicChart(pageSize, offset)
+        return remoteMusicSource.getMusicChart(pageSize, offset)
     }
 
     private suspend fun getMusicBySearch(pageIndex: Int, pageSize: Int, searchQuery: String): List<SongDataEntity> {
         val offset = pageIndex * pageSize
-        return musicSource.searchMusic(searchQuery, pageSize, offset)
+        return remoteMusicSource.searchMusic(searchQuery, pageSize, offset)
     }
 
     private companion object {

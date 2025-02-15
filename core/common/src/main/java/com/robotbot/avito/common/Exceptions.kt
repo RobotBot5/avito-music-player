@@ -15,3 +15,11 @@ open class BackendException(
 class ParseBackendResponseException(
     cause: Throwable
 ) : AppException(cause = cause)
+
+open class StorageException(
+    cause: Throwable
+) : AppException(cause = cause)
+
+class SongAlreadyExistsException(
+    cause: Throwable
+) : StorageException(cause = cause)

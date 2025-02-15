@@ -1,4 +1,4 @@
-package com.robotbot.avito.data.music.sources.dto.music
+package com.robotbot.avito.data.music.sources.remote.dto
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
@@ -48,9 +48,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
 
     implementation(libs.androidx.paging.runtimeKtx)
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
 
     implementation(project(":data"))
     implementation(project(":features:music-api"))

@@ -8,7 +8,7 @@ import com.robotbot.avito.music_api.presentation.MusicApiRouter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-class MusicApiViewModelFactory @Inject constructor(
+internal class MusicApiViewModelFactory @Inject constructor(
     private val getChartMusicListUseCase: GetChartMusicListUseCase,
     private val searchMusicUseCase: SearchMusicUseCase,
 //    private val musicApiRouter: MusicApiRouter

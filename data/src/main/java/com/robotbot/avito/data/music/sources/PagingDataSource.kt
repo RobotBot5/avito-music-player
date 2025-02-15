@@ -3,6 +3,7 @@ package com.robotbot.avito.data.music.sources
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.robotbot.avito.data.music.entities.SongDataEntity
+import com.robotbot.avito.data.music.sources.remote.MusicPageLoader
 
 class PagingDataSource(
     private val loader: MusicPageLoader,

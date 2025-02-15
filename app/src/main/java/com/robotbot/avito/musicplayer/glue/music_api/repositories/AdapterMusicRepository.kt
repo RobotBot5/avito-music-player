@@ -26,4 +26,8 @@ class AdapterMusicRepository @Inject constructor(
                 it.map(MusicMapper::mapDataEntityToDomain)
             }
     }
+
+    override suspend fun saveSongIntoDb(song: Song) {
+        musicDataRepository.saveSongIntoDb(MusicMapper.mapSongToLocalSongDataEntity(song))
+    }
 }

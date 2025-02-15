@@ -1,8 +1,9 @@
-package com.robotbot.avito.data.music.sources
+package com.robotbot.avito.data.music.sources.remote
 
 import com.robotbot.avito.data.music.entities.SongDataEntity
-import com.robotbot.avito.data.music.sources.base.MusicApi
-import com.robotbot.avito.data.music.sources.base.wrapRetrofitExceptions
+import com.robotbot.avito.data.music.sources.RemoteDataSource
+import com.robotbot.avito.data.music.sources.remote.base.MusicApi
+import com.robotbot.avito.data.music.sources.remote.base.wrapRetrofitExceptions
 import javax.inject.Inject
 
 typealias MusicPageLoader = suspend (pageIndex: Int, pageSize: Int) -> List<SongDataEntity>

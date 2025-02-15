@@ -1,11 +1,11 @@
-package com.robotbot.avito.data.music.sources.base
+package com.robotbot.avito.data.music.sources.remote.base
 
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
 import com.robotbot.avito.common.BackendException
 import com.robotbot.avito.common.ConnectionException
 import com.robotbot.avito.common.ParseBackendResponseException
-import com.robotbot.avito.data.music.sources.dto.DtoWithError
+import com.robotbot.avito.data.music.sources.remote.dto.DtoWithError
 import retrofit2.HttpException
 import java.io.IOException
 

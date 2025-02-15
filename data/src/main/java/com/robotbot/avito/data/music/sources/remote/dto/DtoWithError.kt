@@ -1,4 +1,4 @@
-package com.robotbot.avito.data.music.sources.dto
+package com.robotbot.avito.data.music.sources.remote.dto
 
 
 interface DtoWithError {

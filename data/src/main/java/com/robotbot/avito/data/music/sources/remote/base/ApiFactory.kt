@@ -1,4 +1,4 @@
-package com.robotbot.avito.data.music.sources.base
+package com.robotbot.avito.data.music.sources.remote.base
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

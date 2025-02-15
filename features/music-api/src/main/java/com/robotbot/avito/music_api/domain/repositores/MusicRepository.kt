@@ -9,4 +9,6 @@ interface MusicRepository {
     fun getMusicChart(): Flow<PagingData<Song>>
 
     fun searchMusic(searchQuery: String): Flow<PagingData<Song>>
+
+    suspend fun saveSongIntoDb(song: Song)
 }

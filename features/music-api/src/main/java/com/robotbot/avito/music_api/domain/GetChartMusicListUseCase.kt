@@ -5,7 +5,7 @@ import com.robotbot.avito.music_api.domain.repositores.MusicRepository
 import javax.inject.Inject
 
 @MusicApiFeatureScope
-class GetChartMusicListUseCase @Inject constructor(
+internal class GetChartMusicListUseCase @Inject constructor(
     private val musicRepository: MusicRepository
 ) {
 

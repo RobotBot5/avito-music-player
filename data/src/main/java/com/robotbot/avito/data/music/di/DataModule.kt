@@ -5,6 +5,7 @@ import dagger.Module
 @Module(includes = [
     ApiModule::class,
     MusicRepositoriesDataModule::class,
-    MusicSourcesModule::class
+    MusicSourcesModule::class,
+    DaoModule::class
 ])
 interface DataModule
