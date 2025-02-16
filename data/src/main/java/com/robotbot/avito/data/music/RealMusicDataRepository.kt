@@ -43,7 +43,7 @@ class RealMusicDataRepository @Inject constructor(
 
     override suspend fun getSongById(id: String): SongDataEntity = remoteMusicSource.getSongById(id)
 
-    override fun getLocalMusic(searchQuery: String): Flow<PagingData<LocalSongDataEntity>> {
+    override fun getLocalMusicWithPaging(searchQuery: String): Flow<PagingData<LocalSongDataEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
@@ -51,7 +51,7 @@ class RealMusicDataRepository @Inject constructor(
                 prefetchDistance = PAGE_SIZE / 2,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { localMusicSource.getLocalMusic(searchQuery) }
+            pagingSourceFactory = { localMusicSource.getLocalMusicWithPaging(searchQuery) }
         ).flow
             .map {
                 it.map { songDbModel ->
@@ -62,6 +62,8 @@ class RealMusicDataRepository @Inject constructor(
 
     override suspend fun getSongsByAlbumId(albumId: Long): List<SongDataEntity> =
         remoteMusicSource.getSongsByAlbumId(albumId)
+
+    override fun getAllTracks(): Flow<List<LocalSongDataEntity>> = localMusicSource.getLocalMusic()
 
     private fun getDefaultPager(loader: MusicPageLoader): Pager<Int, SongDataEntity> = Pager(
         config = PagingConfig(

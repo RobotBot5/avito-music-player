@@ -7,12 +7,14 @@ fun LocalSongDataEntity.toSongDbModel(): SongDbModel = SongDbModel(
     id = id,
     title = title,
     authorName = authorName,
-    songImageUrl = songImageUrl
+    songImageUrl = songImageUrl,
+    previewUrl = previewUrl
 )
 
 fun SongDbModel.toLocalSongDataEntity(): LocalSongDataEntity = LocalSongDataEntity(
     id = id,
     title = title,
     authorName = authorName,
-    songImageUrl = songImageUrl
+    songImageUrl = songImageUrl,
+    previewUrl = previewUrl
 )

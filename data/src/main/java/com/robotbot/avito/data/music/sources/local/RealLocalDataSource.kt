@@ -23,12 +23,19 @@ class RealLocalDataSource @Inject constructor(
 
     override fun getLocalMusicIds(): Flow<Set<String>> {
         return localSongsDao.getDownloadedTrackIds()
-            .catch { e ->
-                wrapSQLiteException { throw e }
+            .catch {
+                wrapSQLiteException { throw it }
             }.map { it.toSet() }
     }
 
-    override fun getLocalMusic(searchQuery: String): PagingSource<Int, SongDbModel> = wrapSQLiteException {
-        localSongsDao.getDownloadedTracks(searchQuery)
+    override fun getLocalMusicWithPaging(searchQuery: String): PagingSource<Int, SongDbModel> = wrapSQLiteException {
+        localSongsDao.getDownloadedTracksWithPaging(searchQuery)
+    }
+
+    override fun getLocalMusic(): Flow<List<LocalSongDataEntity>> {
+        return localSongsDao.getAllTracks()
+            .catch {
+                wrapSQLiteException { throw it }
+            }
     }
 }

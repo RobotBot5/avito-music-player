@@ -3,13 +3,11 @@ package com.robotbot.avito.music_player
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.OptIn
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -19,15 +17,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
-import androidx.media3.ui.PlayerView
-import androidx.media3.ui.PlayerView.ARTWORK_DISPLAY_MODE_FILL
-import androidx.media3.ui.PlayerView.ARTWORK_DISPLAY_MODE_FIT
-import androidx.media3.ui.PlayerView.ArtworkDisplayMode
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import com.robotbot.avito.music_player.databinding.FragmentPlayerBinding
@@ -45,6 +35,8 @@ class PlayerFragment : Fragment() {
     private lateinit var controllerFuture: ListenableFuture<MediaController>
 
     private lateinit var trackId: String
+
+    private lateinit var source: String
 
     private val component by lazy {
         (requireActivity().application as MusicPlayerComponentProvider).provideMusicPlayerComponent()
@@ -65,12 +57,22 @@ class PlayerFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseArgs()
-        viewModel.setAlbumInPlayer(trackId)
+        if (source == REMOTE_SOURCE) {
+            viewModel.setAlbumInPlayer(trackId)
+        } else if (source == LOCAL_SOURCE) {
+            viewModel.setLocalInPlayer()
+        }
     }
 
     private fun parseArgs() {
-        trackId = requireArguments().getString(TRACK_ID_KEY)
+        val bundle = requireArguments()
+        trackId = bundle.getString(TRACK_ID_KEY)
             ?: throw RuntimeException("Param track id is absent")
+        val source = bundle.getString(SOURCE_KEY) ?: throw RuntimeException("Param source is absent")
+        if (source != LOCAL_SOURCE && source != REMOTE_SOURCE) {
+            throw RuntimeException("Unknown source")
+        }
+        this.source = source
     }
 
     override fun onCreateView(
@@ -114,6 +116,10 @@ class PlayerFragment : Fragment() {
                             }
                         })
                         mediaController.setMediaItems(mediaList)
+                        val targetIndex = mediaList.indexOfFirst { it.mediaId == trackId }
+                        if (targetIndex >= 0) {
+                            mediaController.seekTo(targetIndex, 0)
+                        }
                         mediaController.play()
                     },
                     MoreExecutors.directExecutor()
@@ -159,9 +165,18 @@ class PlayerFragment : Fragment() {
     companion object {
 
         private const val TRACK_ID_KEY = "trackId"
+        private const val SOURCE_KEY = "source"
+        private const val LOCAL_SOURCE = "local"
+        private const val REMOTE_SOURCE = "remote"
 
-        fun newBundle(trackId: String): Bundle = Bundle().apply {
+        fun newBundleFromApi(trackId: String): Bundle = Bundle().apply {
             putString(TRACK_ID_KEY, trackId)
+            putString(SOURCE_KEY, REMOTE_SOURCE)
+        }
+
+        fun newBundleFromLocal(trackId: String): Bundle = Bundle().apply {
+            putString(TRACK_ID_KEY, trackId)
+            putString(SOURCE_KEY, LOCAL_SOURCE)
         }
     }
 }

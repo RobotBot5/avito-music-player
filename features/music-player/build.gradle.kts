@@ -56,4 +56,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     implementation(libs.glide)
+
+    implementation(project(":features:service-core"))
 }

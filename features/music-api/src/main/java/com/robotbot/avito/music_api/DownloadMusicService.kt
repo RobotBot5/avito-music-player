@@ -18,6 +18,7 @@ import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.scheduler.PlatformScheduler
 import androidx.media3.exoplayer.scheduler.Scheduler
 import androidx.work.WorkManager
+import com.robotbot.avito.service_core.CacheHolder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import java.io.File
@@ -32,22 +33,18 @@ class DownloadMusicService : DownloadService(
     R.string.title_music_api
 ) {
 
-    override fun onCreate() {
-        Log.d(LOG_TAG, "onCreate")
-        super.onCreate()
-    }
-
     override fun onDestroy() {
-        Log.d(LOG_TAG, "onDestroy")
+        CacheHolder.releaseCache()
         super.onDestroy()
     }
 
     override fun getDownloadManager(): DownloadManager {
         val databaseProvider = StandaloneDatabaseProvider(this)
-        val downloadDirectory = File(this.filesDir, DIRECTORY_NAME).apply {
-            if (!exists()) mkdirs()
-        }
-        val downloadCache = SimpleCache(downloadDirectory, NoOpCacheEvictor(), databaseProvider)
+//        val downloadDirectory = File(this.filesDir, DIRECTORY_NAME).apply {
+//            if (!exists()) mkdirs()
+//        }
+//        val downloadCache = SimpleCache(downloadDirectory, NoOpCacheEvictor(), databaseProvider)
+        val downloadCache = CacheHolder.getInstance(this)
         val dataSourceFactory = DefaultHttpDataSource.Factory()
         val slowDataSourceFactory = SlowDataSourceFactory(dataSourceFactory, delayMillis = 1000L)
         val downloadExecutor = Dispatchers.IO.asExecutor()
@@ -149,6 +146,8 @@ class DownloadMusicService : DownloadService(
             notMetRequirements
         );
     }
+
+
 
     companion object {
         private const val FOREGROUND_NOTIFICATION_ID = 1

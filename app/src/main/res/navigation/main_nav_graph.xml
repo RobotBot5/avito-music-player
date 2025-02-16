@@ -10,19 +10,19 @@
         android:label="MusicApiFragment" >
         <action
             android:id="@+id/action_musicApiFragment_to_testFragment"
-            app:destination="@id/testFragment" />
+            app:destination="@id/playerFragment" />
     </fragment>
     <fragment
         android:id="@+id/musicLocalFragment"
         android:name="com.robotbot.avito.music_local.presentation.music_local.MusicLocalFragment"
-        android:label="MusicLocalFragment" />
+        android:label="MusicLocalFragment" >
+        <action
+            android:id="@+id/action_musicLocalFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/testFragment"
+        android:id="@+id/playerFragment"
         android:name="com.robotbot.avito.music_player.PlayerFragment"
         android:label="TestFragment" >
     </fragment>
-    <fragment
-        android:id="@+id/musicLocalFragment"
-        android:name="com.robotbot.avito.music_local.presentation.music_local.MusicLocalFragment"
-        android:label="MusicLocalFragment" />
 </navigation>

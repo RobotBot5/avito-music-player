@@ -5,6 +5,7 @@ import com.robotbot.avito.data.music.entities.SongDataEntity
 import com.robotbot.avito.muic_list_core.domain.entities.LoadingProgress
 import com.robotbot.avito.muic_list_core.domain.entities.Song
 import com.robotbot.avito.muic_list_core.domain.entities.SongToDisplay
+import com.robotbot.avito.music_player.domain.entities.LocalSongToPlay
 import com.robotbot.avito.music_player.domain.entities.SongToPlay
 
 object MusicMapper {
@@ -21,7 +22,8 @@ object MusicMapper {
         id = song.id.toString(),
         title = song.title,
         authorName = song.authorName,
-        songImageUrl = song.songImageUrl
+        songImageUrl = song.songImageUrl,
+        previewUrl = song.previewUrl
     )
 
     fun mapLocalSongDataEntityToDisplaySong(localSongDataEntity: LocalSongDataEntity): SongToDisplay = SongToDisplay(
@@ -40,5 +42,13 @@ object MusicMapper {
         songImageUrl = songDataEntity.albumDataEntity?.coverBigUrl,
         albumId = songDataEntity.albumDataEntity?.id,
         albumTitle = songDataEntity.albumDataEntity?.title
+    )
+
+    fun mapLocalDataEntityToPlay(localSongDataEntity: LocalSongDataEntity): LocalSongToPlay = LocalSongToPlay(
+        id = localSongDataEntity.id,
+        title = localSongDataEntity.title,
+        authorName = localSongDataEntity.authorName,
+        songImageUrl = localSongDataEntity.songImageUrl,
+        previewUrl = localSongDataEntity.previewUrl
     )
 }

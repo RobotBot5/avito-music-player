@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
-    namespace = "com.robotbot.avito.music_local"
+    namespace = "com.robotbot.avito.service_core"
     compileSdk = 34
 
     defaultConfig {
@@ -42,13 +41,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.ui)
-
-    implementation(libs.androidx.paging.runtimeKtx)
-
-    implementation(project(":features:music-list-core"))
+    implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.session)
 }

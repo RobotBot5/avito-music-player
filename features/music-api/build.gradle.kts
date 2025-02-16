@@ -67,4 +67,5 @@ dependencies {
 
     implementation(project(":core:common"))
     implementation(project(":features:music-list-core"))
+    implementation(project(":features:service-core"))
 }

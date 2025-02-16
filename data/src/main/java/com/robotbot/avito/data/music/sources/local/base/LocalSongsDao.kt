@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.robotbot.avito.data.music.entities.LocalSongDataEntity
 import com.robotbot.avito.data.music.sources.local.model.SongDbModel
 import kotlinx.coroutines.flow.Flow
 
@@ -18,5 +19,8 @@ interface LocalSongsDao {
 
     @Query("SELECT * FROM downloaded_tracks " +
             "WHERE :searchQuery = '' OR title LIKE '%' || :searchQuery || '%' ")
-    fun getDownloadedTracks(searchQuery: String): PagingSource<Int, SongDbModel>
+    fun getDownloadedTracksWithPaging(searchQuery: String): PagingSource<Int, SongDbModel>
+
+    @Query("SELECT * FROM downloaded_tracks")
+    fun getAllTracks(): Flow<List<LocalSongDataEntity>>
 }

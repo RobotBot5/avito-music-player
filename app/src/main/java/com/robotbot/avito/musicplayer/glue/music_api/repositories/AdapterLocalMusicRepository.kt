@@ -15,7 +15,7 @@ class AdapterLocalMusicRepository @Inject constructor(
 ) : LocalMusicRepository {
 
     override fun getLocalMusic(searchQuery: String): Flow<PagingData<SongToDisplay>> {
-        return musicDataRepository.getLocalMusic(searchQuery).map {
+        return musicDataRepository.getLocalMusicWithPaging(searchQuery).map {
             it.map(MusicMapper::mapLocalSongDataEntityToDisplaySong)
         }
     }
