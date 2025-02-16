@@ -31,6 +31,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -51,4 +54,6 @@ dependencies {
     implementation(libs.androidx.media3.session)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(libs.glide)
 }

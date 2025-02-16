@@ -1,5 +1,6 @@
 package com.robotbot.avito.music_player
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
@@ -16,6 +17,9 @@ class PlayerViewModel(
     private val _musicList = MutableStateFlow<Pair<Long, List<MediaItem>>>(-1L to listOf())
     val musicList = _musicList.asStateFlow()
 
+    private val _state = MutableStateFlow(PlayerState())
+    val state = _state.asStateFlow()
+
     private var prevAlbumId: Long = INIT_PREV_ALBUM_ID
 
     fun setAlbumInPlayer(trackId: String) {
@@ -27,6 +31,8 @@ class PlayerViewModel(
                 .map { song ->
                     val metaData = MediaMetadata.Builder()
                         .setTitle(song.title)
+                        .setArtworkUri(Uri.parse(song.songImageUrl))
+                        .setAlbumTitle(song.albumTitle)
                         .setArtist(song.authorName).build()
 
                     MediaItem.Builder()
@@ -36,6 +42,15 @@ class PlayerViewModel(
                         .build()
                 }
         }
+    }
+
+    fun setState(
+        title: String,
+        author: String,
+        album: String,
+        imageUrl: String
+    ) {
+        _state.value = PlayerState(title, author, album, imageUrl)
     }
 
     companion object {

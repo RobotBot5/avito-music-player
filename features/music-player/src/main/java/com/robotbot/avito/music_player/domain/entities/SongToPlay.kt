@@ -6,5 +6,6 @@ data class SongToPlay(
     val authorName: String,
     val previewUrl: String,
     val songImageUrl: String?,
-    val albumId: Long?
+    val albumId: Long?,
+    val albumTitle: String?
 )

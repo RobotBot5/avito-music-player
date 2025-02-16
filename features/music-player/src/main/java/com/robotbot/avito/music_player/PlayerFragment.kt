@@ -1,20 +1,36 @@
 package com.robotbot.avito.music_player
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.OptIn
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import androidx.media3.ui.PlayerView
+import androidx.media3.ui.PlayerView.ARTWORK_DISPLAY_MODE_FILL
+import androidx.media3.ui.PlayerView.ARTWORK_DISPLAY_MODE_FIT
+import androidx.media3.ui.PlayerView.ArtworkDisplayMode
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
+import com.robotbot.avito.music_player.databinding.FragmentPlayerBinding
 import com.robotbot.avito.music_player.di.MusicPlayerComponentProvider
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,7 +38,10 @@ import javax.inject.Inject
 
 class PlayerFragment : Fragment() {
 
-    private lateinit var playerView: PlayerView
+    private var _binding: FragmentPlayerBinding? = null
+    private val binding: FragmentPlayerBinding
+        get() = _binding ?: throw RuntimeException("FragmentPlayerBinding == null")
+
     private lateinit var controllerFuture: ListenableFuture<MediaController>
 
     private lateinit var trackId: String
@@ -59,10 +78,11 @@ class PlayerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return PlayerView(requireContext())
-            .also { playerView = it }
+        _binding = FragmentPlayerBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    @OptIn(UnstableApi::class)
     override fun onStart() {
         super.onStart()
 
@@ -77,10 +97,24 @@ class PlayerFragment : Fragment() {
                 controllerFuture.addListener(
                     {
                         val mediaController = controllerFuture.get()
-                        playerView.player = mediaController
+                        binding.playerView.player = mediaController
                         if (mediaController.playlistMetadata.title == albumId.toString()) return@addListener
                         mediaController.playlistMetadata = MediaMetadata.Builder().setTitle(albumId.toString()).build()
+                        mediaController.addListener(object : Player.Listener {
+                            @SuppressLint("CheckResult")
+                            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                                mediaItem?.mediaMetadata?.let { metadata ->
+                                    viewModel.setState(
+                                        title = metadata.title.toString(),
+                                        author = metadata.artist.toString(),
+                                        album = metadata.albumTitle.toString(),
+                                        imageUrl = metadata.artworkUri.toString()
+                                    )
+                                }
+                            }
+                        })
                         mediaController.setMediaItems(mediaList)
+                        mediaController.play()
                     },
                     MoreExecutors.directExecutor()
                 )
@@ -88,9 +122,38 @@ class PlayerFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collectLatest {
+                binding.titleTextView.text = it.title
+                binding.authorTextView.text = it.author
+                binding.albumTextView.text = it.album
+                val imageUrl = it.imageUrl
+                if (imageUrl != null) {
+                    Glide.with(requireContext())
+                        .load(imageUrl)
+                        .centerCrop()
+                        .placeholder(R.drawable.placeholder_song)
+                        .error(R.drawable.placeholder_song)
+                        .into(binding.albumCoverBackground)
+                } else {
+                    Glide.with(requireContext())
+                        .load(R.drawable.placeholder_song)
+                        .into(binding.albumCoverBackground)
+                }
+            }
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         MediaController.releaseFuture(controllerFuture)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

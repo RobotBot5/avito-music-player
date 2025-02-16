@@ -38,6 +38,7 @@ object MusicMapper {
         authorName = songDataEntity.authorName,
         previewUrl = songDataEntity.previewUrl,
         songImageUrl = songDataEntity.albumDataEntity?.coverBigUrl,
-        albumId = songDataEntity.albumDataEntity?.id
+        albumId = songDataEntity.albumDataEntity?.id,
+        albumTitle = songDataEntity.albumDataEntity?.title
     )
 }
