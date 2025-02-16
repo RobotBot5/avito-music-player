@@ -61,9 +61,9 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 
-    implementation("com.google.code.gson:gson:2.12.1")
+    implementation(libs.gson)
 
-    implementation("androidx.work:work-runtime-ktx:2.10.0")
+    implementation(libs.androidx.work.runtime.ktx)
 
     implementation(project(":core:common"))
     implementation(project(":features:music-list-core"))
