@@ -52,7 +52,7 @@ class DownloadMusicService : DownloadService(
         }
         val downloadCache = SimpleCache(downloadDirectory, NoOpCacheEvictor(), databaseProvider)
         val dataSourceFactory = DefaultHttpDataSource.Factory()
-        val slowDataSourceFactory = SlowDataSourceFactory(dataSourceFactory, delayMillis = 500L)
+        val slowDataSourceFactory = SlowDataSourceFactory(dataSourceFactory, delayMillis = 1000L)
         val downloadExecutor = Dispatchers.IO.asExecutor()
 
         val downloadManager = DownloadManager(
@@ -79,7 +79,7 @@ class DownloadMusicService : DownloadService(
                 finalException: Exception?
             ) {
                 Log.d(LOG_TAG, "${downloadManager.currentDownloads.map { it.request.id }} ${download.state}")
-                downloadManager.downloadIndex.getDownloads()
+                DownloadTracker.updateDownloads(downloadManager.currentDownloads.map { it.request.id }.toSet())
                 if (download.state == Download.STATE_COMPLETED) {
                     val metaJsonString = String(download.request.data)
                     val workManager = WorkManager.getInstance(application)
@@ -87,7 +87,6 @@ class DownloadMusicService : DownloadService(
                 }
             }
         })
-
         return downloadManager
     }
 

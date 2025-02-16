@@ -30,4 +30,6 @@ class AdapterMusicRepository @Inject constructor(
     override suspend fun saveSongIntoDb(song: Song) {
         musicDataRepository.saveSongIntoDb(MusicMapper.mapSongToLocalSongDataEntity(song))
     }
+
+    override fun getLocalMusicIds(): Flow<Set<String>> = musicDataRepository.getLocalSongIds()
 }

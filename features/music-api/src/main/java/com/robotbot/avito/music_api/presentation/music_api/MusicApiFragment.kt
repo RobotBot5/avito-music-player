@@ -163,7 +163,7 @@ class MusicApiFragment : Fragment() {
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state ->
+            viewModel.state.collectLatest { state ->
                 with(binding) {
                     adapter.submitData(state.musicList)
                     when (state.displayState) {

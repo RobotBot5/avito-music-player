@@ -1,6 +1,7 @@
 package com.robotbot.avito.music_api.presentation.music_api.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.OptIn
@@ -9,11 +10,12 @@ import androidx.paging.PagingDataAdapter
 import com.bumptech.glide.Glide
 import com.robotbot.avito.music_api.R
 import com.robotbot.avito.music_api.databinding.ItemSongBinding
-import com.robotbot.avito.music_api.domain.entities.Song
+import com.robotbot.avito.music_api.domain.entities.LoadingProgress
+import com.robotbot.avito.music_api.domain.entities.SongToDisplay
 
-typealias OnDownloadClickListener = (Song) -> Unit
+typealias OnDownloadClickListener = (SongToDisplay) -> Unit
 
-class MusicPagingAdapter : PagingDataAdapter<Song, SongViewHolder>(SongDiffCallback) {
+class MusicPagingAdapter : PagingDataAdapter<SongToDisplay, SongViewHolder>(SongDiffCallback) {
 
     var onDownloadClickListener: OnDownloadClickListener? = null
 
@@ -33,6 +35,23 @@ class MusicPagingAdapter : PagingDataAdapter<Song, SongViewHolder>(SongDiffCallb
             titleTextView.text = song.title
             authorTextView.text = song.authorName
             loadSongPhoto(songImageView, song.songImageUrl)
+            when (song.loadingProgress) {
+                LoadingProgress.NOT_LOADING -> {
+                    downloadImageView.visibility = View.VISIBLE
+                    progressBarDownloading.visibility = View.INVISIBLE
+                    downloadedImageView.visibility = View.INVISIBLE
+                }
+                LoadingProgress.LOADING -> {
+                    downloadImageView.visibility = View.INVISIBLE
+                    progressBarDownloading.visibility = View.VISIBLE
+                    downloadedImageView.visibility = View.INVISIBLE
+                }
+                LoadingProgress.LOADED -> {
+                    downloadImageView.visibility = View.INVISIBLE
+                    progressBarDownloading.visibility = View.INVISIBLE
+                    downloadedImageView.visibility = View.VISIBLE
+                }
+            }
             downloadImageView.setOnClickListener {
                 onDownloadClickListener?.invoke(song)
             }

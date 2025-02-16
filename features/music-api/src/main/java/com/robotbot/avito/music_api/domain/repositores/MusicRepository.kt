@@ -11,4 +11,6 @@ interface MusicRepository {
     fun searchMusic(searchQuery: String): Flow<PagingData<Song>>
 
     suspend fun saveSongIntoDb(song: Song)
+
+    fun getLocalMusicIds(): Flow<Set<String>>
 }

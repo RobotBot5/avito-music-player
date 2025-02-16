@@ -6,4 +6,14 @@ data class Song(
     val authorName: String,
     val previewUrl: String,
     val songImageUrl: String?
-)
+) {
+
+    fun toSongToDisplay(loadingProgress: LoadingProgress): SongToDisplay = SongToDisplay(
+        id = id,
+        title = title,
+        authorName = authorName,
+        previewUrl = previewUrl,
+        songImageUrl = songImageUrl,
+        loadingProgress = loadingProgress
+    )
+}

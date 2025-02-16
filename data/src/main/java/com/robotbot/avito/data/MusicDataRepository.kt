@@ -13,4 +13,6 @@ interface MusicDataRepository {
 
     suspend fun saveSongIntoDb(localSongDataEntity: LocalSongDataEntity)
 
+    fun getLocalSongIds(): Flow<Set<String>>
+
 }
