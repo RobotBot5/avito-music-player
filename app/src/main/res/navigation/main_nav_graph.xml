@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/musicApiFragment">
+
+    <fragment
+        android:id="@+id/musicApiFragment"
+        android:name="com.robotbot.avito.music_api.presentation.music_api.MusicApiFragment"
+        android:label="MusicApiFragment" />
+</navigation>
