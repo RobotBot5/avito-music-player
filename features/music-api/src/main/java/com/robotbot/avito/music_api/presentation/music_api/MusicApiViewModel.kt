@@ -97,7 +97,11 @@ class MusicApiViewModel(
 
     fun downloadSong(songId: String) {
         viewModelScope.launch {
-            val song = getSongByIdUseCase(songId)
+            val song = try {
+                 getSongByIdUseCase(songId)
+            } catch (e: Exception) {
+                return@launch
+            }
 
             val downloadRequest = DownloadRequest.Builder(
                 song.id.toString(),
