@@ -1,23 +1,24 @@
-package com.robotbot.avito.music_api.presentation.music_api.adapter
+package com.robotbot.avito.muic_list_core.presentation.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.OptIn
-import androidx.media3.common.util.UnstableApi
 import androidx.paging.PagingDataAdapter
 import com.bumptech.glide.Glide
-import com.robotbot.avito.music_api.R
-import com.robotbot.avito.music_api.databinding.ItemSongBinding
-import com.robotbot.avito.music_api.domain.entities.LoadingProgress
-import com.robotbot.avito.music_api.domain.entities.SongToDisplay
+import com.robotbot.avito.muic_list_core.R
+import com.robotbot.avito.muic_list_core.databinding.ItemSongBinding
+import com.robotbot.avito.muic_list_core.domain.entities.LoadingProgress
+import com.robotbot.avito.muic_list_core.domain.entities.SongToDisplay
 
 typealias OnDownloadClickListener = (SongToDisplay) -> Unit
+
+typealias OnDeleteClickListener = (SongToDisplay) -> Unit
 
 class MusicPagingAdapter : PagingDataAdapter<SongToDisplay, SongViewHolder>(SongDiffCallback) {
 
     var onDownloadClickListener: OnDownloadClickListener? = null
+
+    var onDeleteClickListener: OnDeleteClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder {
         val binding = ItemSongBinding.inflate(
@@ -28,7 +29,6 @@ class MusicPagingAdapter : PagingDataAdapter<SongToDisplay, SongViewHolder>(Song
         return SongViewHolder(binding)
     }
 
-    @OptIn(UnstableApi::class)
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         val song = getItem(position) ?: return
         with (holder.binding) {
@@ -37,23 +37,26 @@ class MusicPagingAdapter : PagingDataAdapter<SongToDisplay, SongViewHolder>(Song
             loadSongPhoto(songImageView, song.songImageUrl)
             when (song.loadingProgress) {
                 LoadingProgress.NOT_LOADING -> {
-                    downloadImageView.visibility = View.VISIBLE
-                    progressBarDownloading.visibility = View.INVISIBLE
-                    downloadedImageView.visibility = View.INVISIBLE
+                    downloadImageView.visibility = android.view.View.VISIBLE
+                    progressBarDownloading.visibility = android.view.View.INVISIBLE
+                    deleteImageView.visibility = android.view.View.INVISIBLE
                 }
                 LoadingProgress.LOADING -> {
-                    downloadImageView.visibility = View.INVISIBLE
-                    progressBarDownloading.visibility = View.VISIBLE
-                    downloadedImageView.visibility = View.INVISIBLE
+                    downloadImageView.visibility = android.view.View.INVISIBLE
+                    progressBarDownloading.visibility = android.view.View.VISIBLE
+                    deleteImageView.visibility = android.view.View.INVISIBLE
                 }
                 LoadingProgress.LOADED -> {
-                    downloadImageView.visibility = View.INVISIBLE
-                    progressBarDownloading.visibility = View.INVISIBLE
-                    downloadedImageView.visibility = View.VISIBLE
+                    downloadImageView.visibility = android.view.View.INVISIBLE
+                    progressBarDownloading.visibility = android.view.View.INVISIBLE
+                    deleteImageView.visibility = android.view.View.VISIBLE
                 }
             }
             downloadImageView.setOnClickListener {
                 onDownloadClickListener?.invoke(song)
+            }
+            deleteImageView.setOnClickListener {
+                onDeleteClickListener?.invoke(song)
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.robotbot.avito.music_api.domain.entities
+package com.robotbot.avito.muic_list_core.domain.entities
 
 data class Song(
     val id: Long,
@@ -12,7 +12,6 @@ data class Song(
         id = id,
         title = title,
         authorName = authorName,
-        previewUrl = previewUrl,
         songImageUrl = songImageUrl,
         loadingProgress = loadingProgress
     )

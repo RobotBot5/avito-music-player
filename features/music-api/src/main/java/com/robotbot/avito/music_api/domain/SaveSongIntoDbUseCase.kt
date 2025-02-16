@@ -1,6 +1,6 @@
 package com.robotbot.avito.music_api.domain
 
-import com.robotbot.avito.music_api.domain.entities.Song
+import com.robotbot.avito.muic_list_core.domain.entities.Song
 import com.robotbot.avito.music_api.domain.repositores.MusicRepository
 import javax.inject.Inject
 

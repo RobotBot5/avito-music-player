@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_search">Search</string>
+    <string name="title_music_api">Search Music</string>
+    <string name="error_msg_server">Server error, check your search input</string>
+    <string name="error_msg_connection">Connection error, check your connection</string>
+    <string name="error_msg_server_parsing">Server error, try again later</string>
+    <string name="error_msg_unknown">Unknown error, try again later</string>
+    <string name="btn_try_again">try again</string>
+    <string name="download_channel_name">download</string>
+</resources>

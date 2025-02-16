@@ -3,7 +3,7 @@ package com.robotbot.avito.musicplayer.glue.music_api.repositories
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.robotbot.avito.data.MusicDataRepository
-import com.robotbot.avito.music_api.domain.entities.Song
+import com.robotbot.avito.muic_list_core.domain.entities.Song
 import com.robotbot.avito.music_api.domain.repositores.MusicRepository
 import com.robotbot.avito.musicplayer.glue.music_api.mappers.MusicMapper
 import kotlinx.coroutines.flow.Flow

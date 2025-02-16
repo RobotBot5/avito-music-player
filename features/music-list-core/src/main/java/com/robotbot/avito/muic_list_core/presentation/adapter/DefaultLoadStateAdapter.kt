@@ -1,4 +1,4 @@
-package com.robotbot.avito.music_api.presentation.music_api.adapter
+package com.robotbot.avito.muic_list_core.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.robotbot.avito.common.BackendException
 import com.robotbot.avito.common.ConnectionException
 import com.robotbot.avito.common.ParseBackendResponseException
-import com.robotbot.avito.music_api.R
-import com.robotbot.avito.music_api.databinding.PartDefaultLoadStateBinding
+import com.robotbot.avito.muic_list_core.R
+import com.robotbot.avito.muic_list_core.databinding.PartDefaultLoadStateBinding
 
 typealias TryAgainAction = () -> Unit
 

@@ -1,8 +1,10 @@
 package com.robotbot.avito.music_api
 
 import android.app.Notification
+import android.content.Context
 import android.util.Log
 import androidx.annotation.OptIn
+import androidx.media3.common.util.NotificationUtil
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.common.util.Util
 import androidx.media3.database.StandaloneDatabaseProvider
@@ -15,15 +17,10 @@ import androidx.media3.exoplayer.offline.DownloadNotificationHelper
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.scheduler.PlatformScheduler
 import androidx.media3.exoplayer.scheduler.Scheduler
-import androidx.paging.LOG_TAG
 import androidx.work.WorkManager
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asExecutor
-import kotlinx.coroutines.cancel
 import java.io.File
-import java.lang.Exception
 
 
 @OptIn(UnstableApi::class)
@@ -63,14 +60,12 @@ class DownloadMusicService : DownloadService(
             downloadExecutor
         )
 
-//        val downloadNotificationHelper: DownloadNotificationHelper =
-//            DemoUtil.getDownloadNotificationHelper( /* context= */this)
-//        downloadManager.addListener(
-//            TerminalStateNotificationHelper(
-//                this, downloadNotificationHelper, FOREGROUND_NOTIFICATION_ID + 1
-//            )
-//        )
-
+        val downloadNotificationHelper = DownloadNotificationHelper(this, CHANNEL_ID)
+        downloadManager.addListener(
+            TerminalStateNotificationHelper(
+                this, downloadNotificationHelper, FOREGROUND_NOTIFICATION_ID + 1
+            )
+        )
 
         downloadManager.addListener(object : DownloadManager.Listener {
             override fun onDownloadChanged(
@@ -78,8 +73,12 @@ class DownloadMusicService : DownloadService(
                 download: Download,
                 finalException: Exception?
             ) {
-                Log.d(LOG_TAG, "${downloadManager.currentDownloads.map { it.request.id }} ${download.state}")
-                DownloadTracker.updateDownloads(downloadManager.currentDownloads.map { it.request.id }.toSet())
+                Log.d(
+                    LOG_TAG,
+                    "${downloadManager.currentDownloads.map { it.request.id }} ${download.state}"
+                )
+                DownloadTracker.updateDownloads(downloadManager.currentDownloads.map { it.request.id }
+                    .toSet())
                 if (download.state == Download.STATE_COMPLETED) {
                     val metaJsonString = String(download.request.data)
                     val workManager = WorkManager.getInstance(application)
@@ -87,7 +86,46 @@ class DownloadMusicService : DownloadService(
                 }
             }
         })
+        downloadManager.addListener(
+            TerminalStateNotificationHelper(
+                this, downloadNotificationHelper, FOREGROUND_NOTIFICATION_ID + 1
+            )
+        )
         return downloadManager
+    }
+
+    private class TerminalStateNotificationHelper(
+        context: Context,
+        private val notificationHelper: DownloadNotificationHelper,
+        private var nextNotificationId: Int
+    ) : DownloadManager.Listener {
+
+        private val context: Context = context.applicationContext
+
+        override fun onDownloadChanged(
+            downloadManager: DownloadManager,
+            download: Download,
+            finalException: Exception?
+        ) {
+            val notification = if (download.state == Download.STATE_COMPLETED) {
+                notificationHelper.buildDownloadCompletedNotification(
+                    context,
+                    com.robotbot.avito.muic_list_core.R.drawable.ic_search,
+                    null,
+                    Util.fromUtf8Bytes(download.request.data)
+                )
+            } else if (download.state == Download.STATE_FAILED) {
+                notificationHelper.buildDownloadFailedNotification(
+                    context,
+                    com.robotbot.avito.muic_list_core.R.drawable.ic_search,
+                    null,
+                    Util.fromUtf8Bytes(download.request.data)
+                )
+            } else {
+                return
+            }
+            NotificationUtil.setNotification(context, nextNotificationId++, notification)
+        }
     }
 
     override fun getScheduler(): Scheduler? {
@@ -104,7 +142,7 @@ class DownloadMusicService : DownloadService(
     ): Notification {
         return DownloadNotificationHelper(this, CHANNEL_ID).buildProgressNotification(
             this,
-            R.drawable.ic_download,
+            com.robotbot.avito.muic_list_core.R.drawable.ic_download,
             null,
             null,
             downloads,

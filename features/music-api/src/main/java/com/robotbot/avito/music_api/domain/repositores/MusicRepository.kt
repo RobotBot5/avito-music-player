@@ -1,7 +1,7 @@
 package com.robotbot.avito.music_api.domain.repositores
 
 import androidx.paging.PagingData
-import com.robotbot.avito.music_api.domain.entities.Song
+import com.robotbot.avito.muic_list_core.domain.entities.Song
 import kotlinx.coroutines.flow.Flow
 
 interface MusicRepository {

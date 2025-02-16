@@ -1,7 +1,7 @@
-package com.robotbot.avito.music_api.presentation.music_api.adapter
+package com.robotbot.avito.muic_list_core.presentation.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.robotbot.avito.music_api.domain.entities.SongToDisplay
+import com.robotbot.avito.muic_list_core.domain.entities.SongToDisplay
 
 object SongDiffCallback : DiffUtil.ItemCallback<SongToDisplay>() {
 

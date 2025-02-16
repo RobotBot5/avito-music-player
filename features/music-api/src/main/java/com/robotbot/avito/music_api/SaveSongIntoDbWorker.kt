@@ -8,8 +8,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.google.gson.Gson
+import com.robotbot.avito.muic_list_core.domain.entities.Song
 import com.robotbot.avito.music_api.domain.SaveSongIntoDbUseCase
-import com.robotbot.avito.music_api.domain.entities.Song
 
 class SaveSongIntoDbWorker(
     context: Context,

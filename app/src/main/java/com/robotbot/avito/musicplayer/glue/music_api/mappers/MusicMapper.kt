@@ -2,7 +2,7 @@ package com.robotbot.avito.musicplayer.glue.music_api.mappers
 
 import com.robotbot.avito.data.music.entities.LocalSongDataEntity
 import com.robotbot.avito.data.music.entities.SongDataEntity
-import com.robotbot.avito.music_api.domain.entities.Song
+import com.robotbot.avito.muic_list_core.domain.entities.Song
 
 object MusicMapper {
 
