@@ -7,11 +7,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
+import androidx.navigation.NavController
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.google.gson.Gson
 import com.robotbot.avito.common.combineTriple
 import com.robotbot.avito.muic_list_core.domain.entities.LoadingProgress
+import com.robotbot.avito.muic_list_core.domain.entities.SongToDisplay
 import com.robotbot.avito.muic_list_core.presentation.BaseMusicListViewModel
 import com.robotbot.avito.muic_list_core.presentation.MusicListDisplayState
 import com.robotbot.avito.muic_list_core.presentation.MusicListState
@@ -21,6 +23,7 @@ import com.robotbot.avito.music_api.domain.GetChartMusicListUseCase
 import com.robotbot.avito.music_api.domain.GetLocalMusicIdsUseCase
 import com.robotbot.avito.music_api.domain.GetSongByIdUseCase
 import com.robotbot.avito.music_api.domain.SearchMusicUseCase
+import com.robotbot.avito.music_api.presentation.MusicApiRouter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,8 +43,8 @@ class MusicApiViewModel(
     private val getChartMusicListUseCase: GetChartMusicListUseCase,
     private val searchMusicUseCase: SearchMusicUseCase,
     private val getLocalMusicIdsUseCase: GetLocalMusicIdsUseCase,
-    private val getSongByIdUseCase: GetSongByIdUseCase
-//    private val musicApiRouter: MusicApiRouter
+    private val getSongByIdUseCase: GetSongByIdUseCase,
+    private val musicApiRouter: MusicApiRouter
 ) : BaseMusicListViewModel() {
 
     private val _musicList = MutableStateFlow(MusicListState())
@@ -113,6 +116,10 @@ class MusicApiViewModel(
                 false
             )
         }
+    }
+
+    fun startPlayMusic(trackId: String, navController: NavController) {
+        musicApiRouter.startMusic(trackId, navController)
     }
 
     companion object {

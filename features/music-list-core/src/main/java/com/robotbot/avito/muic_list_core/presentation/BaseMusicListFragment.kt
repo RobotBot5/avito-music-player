@@ -45,6 +45,8 @@ abstract class BaseMusicListFragment<VM : BaseMusicListViewModel> : Fragment() {
 
     protected open fun onDeleteClickListener(songToDisplay: SongToDisplay) {}
 
+    protected open fun onSongClickListener(songToDisplay: SongToDisplay) {}
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -76,6 +78,9 @@ abstract class BaseMusicListFragment<VM : BaseMusicListViewModel> : Fragment() {
         }
         adapter.onDeleteClickListener = {
             onDeleteClickListener(it)
+        }
+        adapter.onSongClickListener = {
+            onSongClickListener(it)
         }
 
         val tryAgainAction: TryAgainAction = { adapter.retry() }

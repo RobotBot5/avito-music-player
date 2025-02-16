@@ -5,5 +5,5 @@ data class SongDataEntity(
     val title: String,
     val authorName: String,
     val previewUrl: String,
-    val songImageUrl: String?
+    val albumDataEntity: AlbumDataEntity?
 )

@@ -16,8 +16,8 @@ internal class MusicApiViewModelFactory @Inject constructor(
     private val getChartMusicListUseCase: GetChartMusicListUseCase,
     private val searchMusicUseCase: SearchMusicUseCase,
     private val getLocalMusicIdsUseCase: GetLocalMusicIdsUseCase,
-    private val getSongByIdUseCase: GetSongByIdUseCase
-//    private val musicApiRouter: MusicApiRouter
+    private val getSongByIdUseCase: GetSongByIdUseCase,
+    private val musicApiRouter: MusicApiRouter
 ) : ViewModelProvider.Factory {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -28,7 +28,8 @@ internal class MusicApiViewModelFactory @Inject constructor(
             getChartMusicListUseCase,
             searchMusicUseCase,
             getLocalMusicIdsUseCase,
-            getSongByIdUseCase
+            getSongByIdUseCase,
+            musicApiRouter
         ) as T
     }
 }

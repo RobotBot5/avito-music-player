@@ -18,4 +18,8 @@ interface RemoteDataSource {
     suspend fun getSongById(
         id: String
     ): SongDataEntity
+
+    suspend fun getSongsByAlbumId(
+        id: Long
+    ): List<SongDataEntity>
 }

@@ -14,7 +14,11 @@ typealias OnDownloadClickListener = (SongToDisplay) -> Unit
 
 typealias OnDeleteClickListener = (SongToDisplay) -> Unit
 
+typealias OnSongClickListener = (SongToDisplay) -> Unit
+
 class MusicPagingAdapter : PagingDataAdapter<SongToDisplay, SongViewHolder>(SongDiffCallback) {
+
+    var onSongClickListener: OnSongClickListener? = null
 
     var onDownloadClickListener: OnDownloadClickListener? = null
 
@@ -57,6 +61,9 @@ class MusicPagingAdapter : PagingDataAdapter<SongToDisplay, SongViewHolder>(Song
             }
             deleteImageView.setOnClickListener {
                 onDeleteClickListener?.invoke(song)
+            }
+            root.setOnClickListener {
+                onSongClickListener?.invoke(song)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.robotbot.avito.data.music.sources.remote.base
 
+import com.robotbot.avito.data.music.sources.remote.dto.AlbumResponseDto
 import com.robotbot.avito.data.music.sources.remote.dto.SongDto
 import com.robotbot.avito.data.music.sources.remote.dto.TrackListWrapperDto
 import retrofit2.http.GET
@@ -26,4 +27,8 @@ interface MusicApi {
         @Path("id") id: String
     ): SongDto
 
+    @GET("album/{id}")
+    suspend fun getAlbumById(
+        @Path("id") id: Long
+    ): AlbumResponseDto
 }

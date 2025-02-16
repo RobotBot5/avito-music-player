@@ -19,7 +19,7 @@ data class SongDto(
                 id = id!!,
                 title = title!!,
                 authorName = artist!!.name,
-                songImageUrl = albumDto!!.coverMediumUrl,
+                albumDataEntity = albumDto?.toAlbumDataEntity(),
                 previewUrl = previewUrl!!
             )
         } catch (e: Exception) {

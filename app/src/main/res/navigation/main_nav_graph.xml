@@ -7,7 +7,20 @@
     <fragment
         android:id="@+id/musicApiFragment"
         android:name="com.robotbot.avito.music_api.presentation.music_api.MusicApiFragment"
-        android:label="MusicApiFragment" />
+        android:label="MusicApiFragment" >
+        <action
+            android:id="@+id/action_musicApiFragment_to_testFragment"
+            app:destination="@id/testFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/musicLocalFragment"
+        android:name="com.robotbot.avito.music_local.presentation.music_local.MusicLocalFragment"
+        android:label="MusicLocalFragment" />
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="com.robotbot.avito.music_player.PlayerFragment"
+        android:label="TestFragment" >
+    </fragment>
     <fragment
         android:id="@+id/musicLocalFragment"
         android:name="com.robotbot.avito.music_local.presentation.music_local.MusicLocalFragment"

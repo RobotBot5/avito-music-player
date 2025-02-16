@@ -60,6 +60,9 @@ class RealMusicDataRepository @Inject constructor(
             }
     }
 
+    override suspend fun getSongsByAlbumId(albumId: Long): List<SongDataEntity> =
+        remoteMusicSource.getSongsByAlbumId(albumId)
+
     private fun getDefaultPager(loader: MusicPageLoader): Pager<Int, SongDataEntity> = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,

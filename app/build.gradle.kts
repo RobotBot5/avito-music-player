@@ -61,4 +61,7 @@ dependencies {
 
     implementation(project(":data"))
     implementation(project(":features:music-api"))
+    implementation(project(":features:music-local"))
+    implementation(project(":features:music-player"))
+    implementation(project(":features:music-list-core"))
 }

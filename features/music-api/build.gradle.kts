@@ -58,6 +58,9 @@ dependencies {
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.media3.session)
 
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+
     implementation("com.google.code.gson:gson:2.12.1")
 
     implementation("androidx.work:work-runtime-ktx:2.10.0")
