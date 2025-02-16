@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.robotbot.avito.data"
+    namespace = "com.robotbot.avito.music_local"
     compileSdk = 34
 
     defaultConfig {
@@ -45,16 +45,7 @@ dependencies {
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)
 
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.loggingInterceptor)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
     implementation(libs.androidx.paging.runtimeKtx)
 
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.paging)
-
-    implementation(project(":core:common"))
+    implementation(project(":features:music-list-core"))
 }

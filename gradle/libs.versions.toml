@@ -34,6 +34,7 @@ androidx-navigation-ui = { module = "androidx.navigation:navigation-ui", version
 androidx-paging-runtimeKtx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }

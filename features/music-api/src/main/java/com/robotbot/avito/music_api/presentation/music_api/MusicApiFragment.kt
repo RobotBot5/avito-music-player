@@ -25,7 +25,7 @@ class MusicApiFragment : BaseMusicListFragment<MusicApiViewModel>() {
         ViewModelProvider(this, viewModelFactory)[MusicApiViewModel::class.java]
 
     override fun onDownloadClickListener(songToDisplay: SongToDisplay) {
-        viewModel.downloadSong(songToDisplay.id.toString())
+        viewModel.downloadSong(songToDisplay.id)
     }
 
     override fun onAttach(context: Context) {

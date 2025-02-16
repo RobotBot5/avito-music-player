@@ -3,6 +3,7 @@ package com.robotbot.avito.data.music
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.robotbot.avito.data.MusicDataRepository
 import com.robotbot.avito.data.music.entities.LocalSongDataEntity
 import com.robotbot.avito.data.music.entities.SongDataEntity
@@ -10,7 +11,9 @@ import com.robotbot.avito.data.music.sources.LocalDataSource
 import com.robotbot.avito.data.music.sources.remote.MusicPageLoader
 import com.robotbot.avito.data.music.sources.PagingDataSource
 import com.robotbot.avito.data.music.sources.RemoteDataSource
+import com.robotbot.avito.data.music.sources.local.toLocalSongDataEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RealMusicDataRepository @Inject constructor(
@@ -40,6 +43,23 @@ class RealMusicDataRepository @Inject constructor(
 
     override suspend fun getSongById(id: String): SongDataEntity = remoteMusicSource.getSongById(id)
 
+    override fun getLocalMusic(searchQuery: String): Flow<PagingData<LocalSongDataEntity>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                initialLoadSize = PAGE_SIZE,
+                prefetchDistance = PAGE_SIZE / 2,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { localMusicSource.getLocalMusic(searchQuery) }
+        ).flow
+            .map {
+                it.map { songDbModel ->
+                    songDbModel.toLocalSongDataEntity()
+                }
+            }
+    }
+
     private fun getDefaultPager(loader: MusicPageLoader): Pager<Int, SongDataEntity> = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,
@@ -53,7 +73,11 @@ class RealMusicDataRepository @Inject constructor(
         return remoteMusicSource.getMusicChart(pageSize, offset)
     }
 
-    private suspend fun getMusicBySearch(pageIndex: Int, pageSize: Int, searchQuery: String): List<SongDataEntity> {
+    private suspend fun getMusicBySearch(
+        pageIndex: Int,
+        pageSize: Int,
+        searchQuery: String
+    ): List<SongDataEntity> {
         val offset = pageIndex * pageSize
         return remoteMusicSource.searchMusic(searchQuery, pageSize, offset)
     }

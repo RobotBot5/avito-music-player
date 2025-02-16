@@ -9,7 +9,7 @@ data class Song(
 ) {
 
     fun toSongToDisplay(loadingProgress: LoadingProgress): SongToDisplay = SongToDisplay(
-        id = id,
+        id = id.toString(),
         title = title,
         authorName = authorName,
         songImageUrl = songImageUrl,

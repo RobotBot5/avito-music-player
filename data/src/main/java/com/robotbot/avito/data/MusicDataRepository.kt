@@ -17,4 +17,6 @@ interface MusicDataRepository {
 
     suspend fun getSongById(id: String): SongDataEntity
 
+    fun getLocalMusic(searchQuery: String): Flow<PagingData<LocalSongDataEntity>>
+
 }

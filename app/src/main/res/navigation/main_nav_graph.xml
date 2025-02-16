@@ -8,4 +8,8 @@
         android:id="@+id/musicApiFragment"
         android:name="com.robotbot.avito.music_api.presentation.music_api.MusicApiFragment"
         android:label="MusicApiFragment" />
+    <fragment
+        android:id="@+id/musicLocalFragment"
+        android:name="com.robotbot.avito.music_local.presentation.music_local.MusicLocalFragment"
+        android:label="MusicLocalFragment" />
 </navigation>

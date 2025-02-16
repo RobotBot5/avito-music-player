@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.musicApiFragment -> {
+                R.id.musicApiFragment, R.id.musicLocalFragment -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                 }
                 else -> {

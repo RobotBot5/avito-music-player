@@ -5,10 +5,13 @@ import androidx.work.Configuration
 import com.robotbot.avito.music_api.SaveSongIntoDbWorkerFactory
 import com.robotbot.avito.music_api.di.MusicApiComponent
 import com.robotbot.avito.music_api.di.MusicApiComponentProvider
+import com.robotbot.avito.music_local.di.MusicLocalComponent
+import com.robotbot.avito.music_local.di.MusicLocalComponentProvider
 import com.robotbot.avito.musicplayer.glue.music_api.di.DaggerAppComponent
 import javax.inject.Inject
 
-class MusicPlayerApp : Application(), MusicApiComponentProvider, Configuration.Provider {
+class MusicPlayerApp : Application(), MusicApiComponentProvider, MusicLocalComponentProvider,
+    Configuration.Provider {
 
     val component by lazy {
         DaggerAppComponent
@@ -30,7 +33,8 @@ class MusicPlayerApp : Application(), MusicApiComponentProvider, Configuration.P
             .build()
 
 
+    override fun provideMusicApiComponent() = component.musicApiComponent()
 
-    override fun provideMusicApiComponent(): MusicApiComponent = component.musicApiComponent()
+    override fun provideMusicLocalComponentProvider() = component.musicLocalComponent()
 
 }

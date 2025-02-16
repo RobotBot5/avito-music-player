@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteException
 import com.robotbot.avito.common.SongAlreadyExistsException
 import com.robotbot.avito.common.StorageException
 
-suspend fun <T> wrapSQLiteException(block: suspend () -> T): T {
+inline fun <T> wrapSQLiteException(block: () -> T): T {
     return try {
         block()
     } catch (e: SQLiteConstraintException) {

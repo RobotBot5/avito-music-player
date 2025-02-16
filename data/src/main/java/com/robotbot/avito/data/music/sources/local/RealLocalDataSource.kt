@@ -1,9 +1,11 @@
 package com.robotbot.avito.data.music.sources.local
 
+import androidx.paging.PagingSource
 import com.robotbot.avito.data.music.entities.LocalSongDataEntity
 import com.robotbot.avito.data.music.sources.LocalDataSource
 import com.robotbot.avito.data.music.sources.local.base.LocalSongsDao
 import com.robotbot.avito.data.music.sources.local.base.wrapSQLiteException
+import com.robotbot.avito.data.music.sources.local.model.SongDbModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -24,5 +26,9 @@ class RealLocalDataSource @Inject constructor(
             .catch { e ->
                 wrapSQLiteException { throw e }
             }.map { it.toSet() }
+    }
+
+    override fun getLocalMusic(searchQuery: String): PagingSource<Int, SongDbModel> = wrapSQLiteException {
+        localSongsDao.getDownloadedTracks(searchQuery)
     }
 }
