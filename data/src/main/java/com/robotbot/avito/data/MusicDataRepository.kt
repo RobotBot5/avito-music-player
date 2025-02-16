@@ -15,4 +15,6 @@ interface MusicDataRepository {
 
     fun getLocalSongIds(): Flow<Set<String>>
 
+    suspend fun getSongById(id: String): SongDataEntity
+
 }

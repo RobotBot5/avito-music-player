@@ -1,16 +1,24 @@
 package com.robotbot.avito.music_api.presentation.music_api
 
+import android.app.Application
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.offline.DownloadRequest
+import androidx.media3.exoplayer.offline.DownloadService
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.google.gson.Gson
+import com.robotbot.avito.music_api.DownloadMusicService
 import com.robotbot.avito.music_api.DownloadTracker
 import com.robotbot.avito.music_api.domain.GetChartMusicListUseCase
 import com.robotbot.avito.music_api.domain.GetLocalMusicIdsUseCase
+import com.robotbot.avito.music_api.domain.GetSongByIdUseCase
 import com.robotbot.avito.music_api.domain.SearchMusicUseCase
 import com.robotbot.avito.music_api.domain.entities.LoadingProgress
+import com.robotbot.avito.music_api.domain.entities.Song
 import com.robotbot.avito.music_api.domain.entities.SongToDisplay
 import com.robotbot.avito.music_api.presentation.combineTriple
 import com.robotbot.avito.music_api.presentation.mergeWith
@@ -25,14 +33,17 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 @androidx.annotation.OptIn(UnstableApi::class)
 @ExperimentalCoroutinesApi
 internal class MusicApiViewModel(
+    private val application: Application,
     private val getChartMusicListUseCase: GetChartMusicListUseCase,
     private val searchMusicUseCase: SearchMusicUseCase,
-    private val getLocalMusicIdsUseCase: GetLocalMusicIdsUseCase
+    getLocalMusicIdsUseCase: GetLocalMusicIdsUseCase,
+    private val getSongByIdUseCase: GetSongByIdUseCase
 //    private val musicApiRouter: MusicApiRouter
 ) : ViewModel() {
 
@@ -42,7 +53,7 @@ internal class MusicApiViewModel(
     private val _searchQuery = MutableStateFlow("")
 
     init {
-        val songFlow = _searchQuery
+        _searchQuery
             .debounce(DEBOUNCE_SEARCH_IN_MILLIS)
             .flatMapLatest { query ->
                 if (query.isBlank()) {
@@ -81,6 +92,31 @@ internal class MusicApiViewModel(
 
     fun setNewSearchQuery(searchQuery: String) {
         _searchQuery.value = searchQuery.trim()
+    }
+
+    fun downloadSong(songId: String) {
+        viewModelScope.launch {
+            val song = getSongByIdUseCase(songId)
+
+            val downloadRequest = DownloadRequest.Builder(
+                song.id.toString(),
+                Uri.parse(song.previewUrl)
+            ).setData(Gson().toJson(song).toByteArray()).build()
+
+            DownloadService.start(
+                application,
+                DownloadMusicService::class.java
+            )
+
+            DownloadService.sendAddDownload(
+                application,
+                DownloadMusicService::class.java,
+                downloadRequest,
+                false
+            )
+        }
+
+
     }
 
     companion object {

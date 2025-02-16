@@ -32,4 +32,7 @@ class AdapterMusicRepository @Inject constructor(
     }
 
     override fun getLocalMusicIds(): Flow<Set<String>> = musicDataRepository.getLocalSongIds()
+
+    override suspend fun getSongById(id: String): Song =
+        MusicMapper.mapDataEntityToDomain(musicDataRepository.getSongById(id))
 }

@@ -38,6 +38,8 @@ class RealMusicDataRepository @Inject constructor(
 
     override fun getLocalSongIds(): Flow<Set<String>> = localMusicSource.getLocalMusicIds()
 
+    override suspend fun getSongById(id: String): SongDataEntity = remoteMusicSource.getSongById(id)
+
     private fun getDefaultPager(loader: MusicPageLoader): Pager<Int, SongDataEntity> = Pager(
         config = PagingConfig(
             pageSize = PAGE_SIZE,

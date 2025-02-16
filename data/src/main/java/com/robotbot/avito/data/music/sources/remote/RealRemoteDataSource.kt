@@ -26,4 +26,8 @@ class RealRemoteDataSource @Inject constructor(
     ): List<SongDataEntity> = wrapRetrofitExceptions {
         musicApi.searchMusic(searchQuery, limit, index)
     }.toSongDataEntityList()
+
+    override suspend fun getSongById(id: String): SongDataEntity = wrapRetrofitExceptions {
+        musicApi.getSongById(id).toSongDataEntity()
+    }
 }

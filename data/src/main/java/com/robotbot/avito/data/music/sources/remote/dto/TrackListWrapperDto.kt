@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.robotbot.avito.data.music.entities.SongDataEntity
 
 data class TrackListWrapperDto(
-    @SerializedName("data") var tracks: List<ChartSongDto>? = null,
+    @SerializedName("data") var tracks: List<SongDto>? = null,
     @SerializedName("error") override val error: ErrorResponseDto?
 ) : DtoWithError {
 

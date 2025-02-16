@@ -89,22 +89,7 @@ class MusicApiFragment : Fragment() {
         adapter = MusicPagingAdapter()
 
         adapter.onDownloadClickListener = { song ->
-            val downloadRequest = DownloadRequest.Builder(
-                song.id.toString(),
-                Uri.parse(song.previewUrl)
-            ).setData(Gson().toJson(song).toByteArray()).build()
-
-//            DownloadService.start(
-//                requireContext(),
-//                DownloadMusicService::class.java
-//            )
-
-            DownloadService.sendAddDownload(
-                requireContext(),
-                DownloadMusicService::class.java,
-                downloadRequest,
-                false
-            )
+            viewModel.downloadSong(song.id.toString())
         }
 
         val tryAgainAction: TryAgainAction = { adapter.retry() }

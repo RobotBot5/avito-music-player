@@ -14,4 +14,8 @@ interface RemoteDataSource {
         limit: Int? = null,
         index: Int? = null
     ): List<SongDataEntity>
+
+    suspend fun getSongById(
+        id: String
+    ): SongDataEntity
 }
